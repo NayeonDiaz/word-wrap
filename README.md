@@ -20,3 +20,10 @@ The deliberate trade-off is that there is no hyphenation and no word breaking. A
 - **Tabs count as 8 columns, not 1.** A leading tab advances to the next multiple of 8, matching the convention used by terminals and most editors. If your source mixes tabs and spaces for indentation, measure carefully.
 - **`\r\n` input leaves a `\r` in the wrapped line**, because the splitter breaks only on `\n`. Normalise your line endings first if that matters.
 - **Blank lines are preserved verbatim**, not re-indented, so paragraph breaks survive the round trip.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
